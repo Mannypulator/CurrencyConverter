@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CurrencyConverter.API</name>
+    </assembly>
+    <members>
+        <member name="M:CurrencyConverter.API.Controllers.v1.ConvertController.Convert(CurrencyConverter.API.Domain.DTOs.ConversionRequestDto)">
+            <summary>
+            Convert currency amount from one currency to another
+            </summary>
+            <param name="request">Currency conversion request</param>
+            <returns>Conversion result with exchange rate and converted amount</returns>
+            <response code="200">Conversion successful</response>
+            <response code="400">Invalid request parameters</response>
+            <response code="404">Currency not found</response>
+            <response code="429">Rate limit exceeded</response>
+        </member>
+        <member name="M:CurrencyConverter.API.Controllers.v1.ConvertController.ConvertHistorical(CurrencyConverter.API.Domain.DTOs.ConversionRequestDto)">
+            <summary>
+            Convert currency amount for a specific historical date
+            </summary>
+            <param name="request">Currency conversion request with date</param>
+            <returns>Historical conversion result</returns>
+        </member>
+        <member name="M:CurrencyConverter.API.Controllers.v1.ConvertController.GetExchangeRate(System.String,System.String)">
+            <summary>
+            Get current exchange rate between two currencies
+            </summary>
+            <param name="from">Source currency code</param>
+            <param name="to">Target currency code</param>
+            <returns>Current exchange rate</returns>
+        </member>
+        <member name="M:CurrencyConverter.API.Controllers.v1.CurrenciesController.GetCurrencies">
+            <summary>
+            Get all supported currencies
+            </summary>
+            <returns>List of supported currencies</returns>
+        </member>
+        <member name="M:CurrencyConverter.API.Controllers.v1.CurrenciesController.GetCurrency(System.String)">
+            <summary>
+            Get specific currency information
+            </summary>
+            <param name="code">Currency code</param>
+            <returns>Currency information</returns>
+        </member>
+        <member name="M:CurrencyConverter.API.Controllers.v1.RatesController.GetHistoricalRates(System.String,System.String,System.DateTime,System.DateTime)">
+            <summary>
+            Get historical exchange rates for a currency pair within a date range
+            </summary>
+            <param name="baseCurrency">Base currency code</param>
+            <param name="targetCurrency">Target currency code</param>
+            <param name="startDate">Start date (YYYY-MM-DD)</param>
+            <param name="endDate">End date (YYYY-MM-DD)</param>
+            <returns>Historical exchange rates</returns>
+        </member>
+        <member name="M:CurrencyConverter.API.Controllers.v1.RatesController.GetHistoricalRateForDate(System.String,System.String,System.DateTime)">
+            <summary>
+            Get exchange rate for a specific historical date
+            </summary>
+            <param name="baseCurrency">Base currency code</param>
+            <param name="targetCurrency">Target currency code</param>
+            <param name="date">Specific date (YYYY-MM-DD)</param>
+            <returns>Exchange rate for the specified date</returns>
+        </member>
+        <member name="M:CurrencyConverter.API.Controllers.v2.ConvertController.Convert(CurrencyConverter.API.Domain.DTOs.ConversionRequestDto)">
+            <summary>
+            Convert currency with enhanced response including additional metadata
+            </summary>
+            <param name="request">Currency conversion request</param>
+            <returns>Enhanced conversion result with metadata</returns>
+        </member>
+        <member name="M:CurrencyConverter.API.Controllers.v2.ConvertController.BatchConvert(System.Collections.Generic.List{CurrencyConverter.API.Domain.DTOs.ConversionRequestDto})">
+            <summary>
+            Batch currency conversion
+            </summary>
+            <param name="requests">List of conversion requests</param>
+            <returns>List of conversion results</returns>
+        </member>
+        <member name="T:CurrencyConverter.API.Migrations.initial">
+            <inheritdoc />
+        </member>
+        <member name="M:CurrencyConverter.API.Migrations.initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CurrencyConverter.API.Migrations.initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:CurrencyConverter.API.Migrations.initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:CurrencyConverter.API.ApiVersionAttribute">
+            <summary>
+            Custom API versioning attribute
+            </summary>
+        </member>
+    </members>
+</doc>
