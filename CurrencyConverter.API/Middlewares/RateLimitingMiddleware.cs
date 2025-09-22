@@ -19,7 +19,7 @@ public class RateLimitingMiddleware
 
     public async Task InvokeAsync(HttpContext context, IApiKeyService apiKeyService)
     {
-        // Skip rate limiting for health checks and swagger
+     
         if (context.Request.Path.StartsWithSegments("/health") ||
             context.Request.Path.StartsWithSegments("/swagger"))
         {
@@ -27,7 +27,7 @@ public class RateLimitingMiddleware
             return;
         }
 
-        // Extract API key from header
+     
         if (!context.Request.Headers.TryGetValue("X-API-Key", out StringValues apiKeyValues))
         {
             await WriteErrorResponse(context, HttpStatusCode.Unauthorized, "API key is required");
@@ -41,7 +41,6 @@ public class RateLimitingMiddleware
             return;
         }
 
-        // Validate API key
         if (!await apiKeyService.IsValidApiKeyAsync(apiKey))
         {
             _logger.LogWarning("Invalid API key attempted: {ApiKey}", apiKey);
@@ -49,7 +48,6 @@ public class RateLimitingMiddleware
             return;
         }
 
-        // Check rate limit
         var ipAddress = GetClientIpAddress(context);
         if (!await apiKeyService.CheckRateLimitAsync(apiKey, ipAddress))
         {
@@ -58,10 +56,8 @@ public class RateLimitingMiddleware
             return;
         }
 
-        // Continue to next middleware
         await _next(context);
 
-        // Record usage after request completion
         try
         {
             await apiKeyService.RecordUsageAsync(apiKey, ipAddress, context.Request.Path, context.Response.StatusCode);
@@ -69,13 +65,13 @@ public class RateLimitingMiddleware
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to record API usage");
-            // Don't fail the request for logging issues
+            
         }
     }
 
     private string GetClientIpAddress(HttpContext context)
     {
-        // Check for forwarded IP addresses first
+       
         if (context.Request.Headers.TryGetValue("X-Forwarded-For", out var forwardedFor))
         {
             var firstIp = forwardedFor.FirstOrDefault()?.Split(',').FirstOrDefault()?.Trim();

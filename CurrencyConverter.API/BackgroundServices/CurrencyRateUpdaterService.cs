@@ -7,8 +7,8 @@ public class CurrencyRateUpdaterService : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<CurrencyRateUpdaterService> _logger;
-    private readonly TimeSpan _updateInterval = TimeSpan.FromMinutes(15); // Update every 15 minutes
-    private readonly TimeSpan _historicalUpdateInterval = TimeSpan.FromHours(24); // Update historical once daily
+    private readonly TimeSpan _updateInterval = TimeSpan.FromMinutes(15); 
+    private readonly TimeSpan _historicalUpdateInterval = TimeSpan.FromHours(24); 
     private DateTime _lastHistoricalUpdate = DateTime.MinValue;
 
     public CurrencyRateUpdaterService(IServiceProvider serviceProvider, ILogger<CurrencyRateUpdaterService> logger)
@@ -28,10 +28,10 @@ public class CurrencyRateUpdaterService : BackgroundService
                 using var scope = _serviceProvider.CreateScope();
                 var rateUpdateService = scope.ServiceProvider.GetRequiredService<IRateUpdateService>();
 
-                // Update real-time rates
+               
                 await UpdateRealTimeRates(rateUpdateService, stoppingToken);
 
-                // Update historical rates if needed (once daily)
+             
                 if (DateTime.UtcNow - _lastHistoricalUpdate > _historicalUpdateInterval)
                 {
                     await UpdateHistoricalRates(rateUpdateService, stoppingToken);
@@ -49,7 +49,6 @@ public class CurrencyRateUpdaterService : BackgroundService
             {
                 _logger.LogError(ex, "Error in Currency Rate Updater Service");
 
-                // Wait before retrying on error
                 await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
             }
         }
@@ -84,8 +83,8 @@ public class CurrencyRateUpdaterService : BackgroundService
         {
             _logger.LogDebug("Starting historical rates update");
 
-            // Update historical rates for the last 30 days
-            var endDate = DateTime.UtcNow.Date.AddDays(-1); // Yesterday
+          
+            var endDate = DateTime.UtcNow.Date.AddDays(-1); 
             var startDate = endDate.AddDays(-30);
 
             await rateUpdateService.UpdateHistoricalRatesAsync(startDate, endDate, cancellationToken);
